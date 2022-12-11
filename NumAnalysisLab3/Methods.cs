@@ -4,10 +4,27 @@ namespace NumAnalysisLab3
 {
     internal class Methods
     {
+        public static int[] Coefficients { get; set; }
+
         private static double Equation(double x)
         {
             // returns the value of the given function
-            double answer = 2 * Math.Pow(x, 3) - 4 * Math.Pow(x, 2) - x + 1;
+            double answer = 0;
+            for(int i = 0; i < Coefficients.Length; i++)
+            {
+                answer += Coefficients[i] * Math.Pow(x, Coefficients.Length-i-1);
+            }
+            return answer;
+        }
+
+        public static string getEquationString()
+        {
+            string answer = "";
+            for (int i = 0; i < Coefficients.Length-1; i++)
+            {
+                answer += $"{Coefficients[i]}*(x^{Coefficients.Length - i - 1}) + ";
+            }
+            answer += $"{Coefficients[Coefficients.Length-1]}";
             return answer;
         }
 

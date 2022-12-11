@@ -4,22 +4,29 @@ namespace NumAnalysisLab3
 {
     internal class Program
     {
-        private static readonly string Equation = "2*x^3 - 4*x^2 - x + 1";
         private static double a;
         private static double b;
         private static double answer;
         private static double accuracy = 0.001;
 
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("Функцiя: " + Equation);
+            int[] Coefficients = new int[6];
+            for (int i = 5; i >= 0; i--)
+            {
+                Console.WriteLine($"Введiть значення коефiцiєнту a{i}");
+                Coefficients[Coefficients.Length-1-i] = int.Parse(Console.ReadLine());
+            }
+            Methods.Coefficients = Coefficients;
+
+            Console.WriteLine("Функцiя: " + Methods.getEquationString());
             Console.WriteLine();
 
-            Console.Write("Введiть потрiбну точнiсть: ");
+            Console.Write("Введiть потрiбну точнiсть (за замовчуванням 0.001): ");
             string input = Console.ReadLine();
             if (input != "")
             {
-                Console.WriteLine("change the accuracy");
+                accuracy = double.Parse(input);
             }
 
             for(int i = 0; i < 3; i++)
