@@ -6,20 +6,24 @@ namespace NumAnalysisLab3
     {
         private static double a;
         private static double b;
-        private static double answer;
+        private static string answer;
         private static double accuracy = 0.001;
+        private static int[] Coefficients;
+        private static int PolynomPower;
 
         static void Main()
         {
-            int[] Coefficients = new int[6];
+            Console.Write("Введiть порядок полiному: ");
+            PolynomPower = int.Parse(Console.ReadLine());
+            Coefficients = new int[PolynomPower+1];
             for (int i = 5; i >= 0; i--)
             {
                 Console.WriteLine($"Введiть значення коефiцiєнту a{i}");
                 Coefficients[Coefficients.Length-1-i] = int.Parse(Console.ReadLine());
             }
-            Methods.Coefficients = Coefficients;
+            Polynom.Coefficients = Coefficients;
 
-            Console.WriteLine("Функцiя: " + Methods.getEquationString());
+            Console.WriteLine("Функцiя: " + Polynom.getEquationString());
             Console.WriteLine();
 
             Console.Write("Введiть потрiбну точнiсть (за замовчуванням 0.001): ");
@@ -35,17 +39,18 @@ namespace NumAnalysisLab3
                 a = double.Parse(Console.ReadLine());
                 b = double.Parse(Console.ReadLine());
 
-                answer = Methods.HalfDivideMethod(accuracy, a, b);
-                Console.Write("Результат методу половинного дiлення: ");
+                answer = Polynom.HalfDivideMethod(accuracy, a, b);
+                Console.WriteLine("Результат методу половинного дiлення: ");
                 Console.WriteLine(answer);
 
-                answer = Methods.ChordMethod(accuracy, a, b);
-                Console.Write("Результат методу хорд: ");
+                answer = Polynom.ChordMethod(accuracy, a, b);
+                Console.WriteLine("Результат методу хорд: ");
                 Console.WriteLine(answer);
 
-                answer = Methods.TangentMethod(accuracy, a, b);
-                Console.Write("Результат методу дотичної: ");
+                answer = Polynom.TangentMethod(accuracy, a, b);
+                Console.WriteLine("Результат методу дотичної: ");
                 Console.WriteLine(answer);
+                Console.WriteLine();
             }
             
         }

@@ -2,7 +2,7 @@
 
 namespace NumAnalysisLab3
 {
-    internal class Methods
+    internal class Polynom
     {
         public static int[] Coefficients { get; set; }
 
@@ -66,7 +66,7 @@ namespace NumAnalysisLab3
             return (-fa / (fb - fa)) * (b - a) + a;
         }
 
-        private static double Tangent(double a, double b)
+        private static double Tangent(double a)
         {
             double fa = Equation(a);
             double der = Deritative(a);
@@ -74,30 +74,32 @@ namespace NumAnalysisLab3
             return c;
         }
 
-        public static double HalfDivideMethod(double accuracy, double a, double b)
+        public static string HalfDivideMethod(double accuracy, double a, double b)
         {
             double[] range;
+            int iterations = 0;
 
-            while (b - a > accuracy)
+            while ((b - a > accuracy) || (Math.Abs(Equation((a+b)/2)) > accuracy))
             {
+                iterations++;
                 double c = HalfDivide(a, b);
                 range = NewRange(a, b, c);
                 a = range[0];
                 b = range[1];
             }
-            return (a + b) / 2;
+            return GenerateAnswer(a, b, accuracy, iterations);
         }
 
-        public static double ChordMethod(double accuracy, double a, double b)
+        public static string ChordMethod(double accuracy, double a, double b)
         {
             double[] range;
-            int i = 0;
+            int iterations = 0;
             double previousA = a;
             double previousB = b;
 
-            while (b - a > accuracy)
+            while ((b - a > accuracy) || (Math.Abs(Equation((a + b) / 2)) > accuracy))
             {
-                i++;
+                iterations++;
                 double c = Chord(a, b);
                 //Console.WriteLine($"{i} {a} {b}");
                 range = NewRange(a, b, c);
@@ -106,11 +108,11 @@ namespace NumAnalysisLab3
                 {
                     if (previousB == range[1])   //перевірка на межу, що "застрягла"
                     {
-                        b = a + accuracy;
+                        b = a + (accuracy/10);
                     }
                     else if (previousA == range[0])
                     {
-                        a = b - accuracy;
+                        a = b - (accuracy / 10);
                     }
                     break;
                 }
@@ -119,30 +121,47 @@ namespace NumAnalysisLab3
                 a = range[0];
                 b = range[1];
             }
-            return (a + b) / 2;
+            return GenerateAnswer(a, b, accuracy, iterations);
         }
 
-        public static double TangentMethod(double accuracy, double a, double b)
+        public static string TangentMethod(double accuracy, double a, double b)
         {
             double[] range;
-            int i = 0;
+            int iterations = 0;
 
-            while (b - a > accuracy)
+            while ((b - a > accuracy) || (Math.Abs(Equation((a + b) / 2)) > accuracy))
             {
-                i++;
-                double c = Tangent(a, b);
+                iterations++;
+                double c = Tangent(a);
                 if (c <= a || c >= b)
                 {
-                    //Console.WriteLine($"{i} {a} {b} {c}");
-                    //Console.WriteLine("C is defined by half divide method");
-                    c = HalfDivide(a, b);
+                    c = Tangent(b);
+                    if (c <= a || c >= b)
+                    {
+                        //Console.WriteLine($"{i} {a} {b} {c}");
+                        //Console.WriteLine("C is defined by half divide method");
+                        c = HalfDivide(a, b);
+                    }
                 }
                 
                 range = NewRange(a, b, c);
                 a = range[0];
                 b = range[1];
             }
-            return (a + b) / 2;
+            return GenerateAnswer(a, b, accuracy, iterations);
+        }
+
+        private static string GenerateAnswer(double a, double b, double accuracy, int iterations)
+        {
+            double x = (a + b) / 2;
+            double equation = Equation(x);
+            string answer = $"x = {x}\n";
+            answer += "|b-a| < eps\t->\t";
+            answer += $"|{b-a}| < {accuracy}\n";
+            answer += "|f(xk)| < eps\t->\t";
+            answer += $"|{equation}| < {accuracy}\n";
+            answer += $"number of iterations: {iterations}\n";
+            return answer;
         }
 
     }
