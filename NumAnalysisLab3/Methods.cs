@@ -54,35 +54,74 @@ namespace NumAnalysisLab3
             double fa = Equation(a);
             double der = Deritative(a);
             double c = -(fa / der) + a;
-            Console.WriteLine($"fa = {fa}; der = {der}; a = {a}; c = {c}");
-            if (c <= a || c >= b)
-            {
-                //throw new Exception("c is out of range");
-            }
             return c;
         }
 
-        public static double Controller(int methodCode, double accuracy, double a, double b)
+        public static double HalfDivideMethod(double accuracy, double a, double b)
         {
-            double c = 0;
+            double[] range;
+
+            while (b - a > accuracy)
+            {
+                double c = HalfDivide(a, b);
+                range = NewRange(a, b, c);
+                a = range[0];
+                b = range[1];
+            }
+            return (a + b) / 2;
+        }
+
+        public static double ChordMethod(double accuracy, double a, double b)
+        {
+            double[] range;
+            int i = 0;
+            double previousA = a;
+            double previousB = b;
+
+            while (b - a > accuracy)
+            {
+                i++;
+                double c = Chord(a, b);
+                //Console.WriteLine($"{i} {a} {b}");
+                range = NewRange(a, b, c);
+                if (((int)(a / accuracy * 10) == (int)(range[0] / accuracy * 10)) &&
+                    ((int)(b / accuracy * 10) == (int)(range[1] / accuracy * 10)))
+                {
+                    if (previousB == range[1])   //перевірка на межу, що "застрягла"
+                    {
+                        b = a + accuracy;
+                    }
+                    else if (previousA == range[0])
+                    {
+                        a = b - accuracy;
+                    }
+                    break;
+                }
+                previousA = a;
+                previousB = b;
+                a = range[0];
+                b = range[1];
+            }
+            return (a + b) / 2;
+        }
+
+        public static double TangentMethod(double accuracy, double a, double b)
+        {
             double[] range;
             int i = 0;
 
             while (b - a > accuracy)
             {
                 i++;
-                switch (methodCode)
+                double c = Tangent(a, b);
+                if (c <= a || c >= b)
                 {
-                    case 1: c = HalfDivide(a , b); break;
-                    case 2: c = Chord(a, b); break;
-                    case 3: c = Tangent(a, b); break;
+                    //Console.WriteLine($"{i} {a} {b} {c}");
+                    //Console.WriteLine("C is defined by half divide method");
+                    c = HalfDivide(a, b);
                 }
-                Console.WriteLine($"{i} {a} {b} {methodCode}");
+                
                 range = NewRange(a, b, c);
-                if(a == range[0] && b == range[1])
-                {
-                    break;
-                }
                 a = range[0];
                 b = range[1];
             }

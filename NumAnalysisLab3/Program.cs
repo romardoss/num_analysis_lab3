@@ -12,21 +12,31 @@ namespace NumAnalysisLab3
 
         static void Main(string[] args)
         {
-            Console.WriteLine(Equation);
+            Console.WriteLine("Функцiя: " + Equation);
             Console.WriteLine();
+
+            Console.Write("Введiть потрiбну точнiсть: ");
+            string input = Console.ReadLine();
+            if (input != "")
+            {
+                Console.WriteLine("change the accuracy");
+            }
 
             for(int i = 0; i < 3; i++)
             {
-                Console.WriteLine($"Введіть межі a та b для {i + 1}-го кореня (в стовпчик, дробові числа через кому):");
+                Console.WriteLine($"Введiть межi a та b для {i + 1}-го кореня (в стовпчик, дробовi числа через кому):");
                 a = double.Parse(Console.ReadLine());
                 b = double.Parse(Console.ReadLine());
-                answer = Methods.Controller(1, accuracy, a, b);
-                Console.Write("Результат методу половинного ділення: ");
+
+                answer = Methods.HalfDivideMethod(accuracy, a, b);
+                Console.Write("Результат методу половинного дiлення: ");
                 Console.WriteLine(answer);
-                answer = Methods.Controller(2, accuracy, a, b);
+
+                answer = Methods.ChordMethod(accuracy, a, b);
                 Console.Write("Результат методу хорд: ");
                 Console.WriteLine(answer);
-                answer = Methods.Controller(3, accuracy, a, b);
+
+                answer = Methods.TangentMethod(accuracy, a, b);
                 Console.Write("Результат методу дотичної: ");
                 Console.WriteLine(answer);
             }
