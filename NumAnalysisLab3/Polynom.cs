@@ -40,7 +40,7 @@ namespace NumAnalysisLab3
             double equationA = Equation(a);
             double equationB = Equation(b);
             double equationC = Equation(c);
-            if(equationA * equationC < 0)
+            if (equationA * equationC < 0)
             {
                 return new double[] { a, c };
             }
@@ -48,8 +48,13 @@ namespace NumAnalysisLab3
             {
                 return new double[] { c, b };
             }
+            else if (equationC == 0)
+            {
+                return new double[] { c, c };
+            }
             else
             {
+                //Console.WriteLine($"{equationA} {equationB} {equationC} {c}");
                 return new double[] { -1 };
             }
         }
