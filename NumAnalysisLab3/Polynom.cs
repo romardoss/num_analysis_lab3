@@ -158,11 +158,14 @@ namespace NumAnalysisLab3
 
         private static string GenerateAnswer(double a, double b, double accuracy, int iterations)
         {
-            double x = (a + b) / 2;
-            double equation = Equation(x);
+            double xValue = (a + b) / 2;
+            double equationValue = Equation(xValue);
+            string x = Print.Number(xValue);
+            string equation = Print.Number(equationValue);
+            string range = Print.Number(b - a);
             string answer = $"x = {x}\n";
             answer += "|b-a| < eps\t->\t";
-            answer += $"|{b-a}| < {accuracy}\n";
+            answer += $"|{range}| < {accuracy}\n";
             answer += "|f(xk)| < eps\t->\t";
             answer += $"|{equation}| < {accuracy}\n";
             answer += $"number of iterations: {iterations}\n";

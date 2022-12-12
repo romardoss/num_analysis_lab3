@@ -52,7 +52,17 @@ namespace NumAnalysisLab3
                 Console.WriteLine(answer);
                 Console.WriteLine();
             }
-            
+
+            Mistake m = new();
+            Console.Write("Середньоквадратична похибка методу бiсекцiї: ");
+            Console.WriteLine(Mistake.SquareMistake(m.HalfDivideMethodOnlineCalculatorResults,
+                m.HalfDivideMethodResults));
+            Console.Write("Середньоквадратична похибка методу хорд: ");
+            Console.WriteLine(Mistake.SquareMistake(m.ChordMethodOnlineCalculatorResults,
+                m.ChordMethodResults));
+            Console.Write("Середньоквадратична похибка методу дотичної: ");
+            Console.WriteLine(Mistake.SquareMistake(m.TangentMethodOnlineCalculatorResults,
+                m.TangentMethodResults));
         }
     }
 }
